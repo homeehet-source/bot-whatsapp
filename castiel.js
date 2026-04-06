@@ -11,6 +11,26 @@ async function startCastiel() {
     })
 
     sock.ev.on("creds.update", saveCreds)
+    const QRCode = require('qrcode');
+
+sock.ev.on('connection.update', async (update) => {
+    const { connection, qr } = update;
+
+    if (qr) {
+        console.log('QR GERADO 👇');
+
+        const qrCode = await QRCode.toString(qr, { type: 'terminal' });
+        console.log(qrCode);
+    }
+
+    if (connection === 'open') {
+        console.log('Castiel conectado 😇🔥');
+    }
+
+    if (connection === 'close') {
+        console.log('Conexão fechada, tentando reconectar...');
+    }
+});
 
     sock.ev.on("messages.upsert", async ({ messages }) => {
         const msg = messages[0]
