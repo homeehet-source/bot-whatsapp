@@ -1,0 +1,13 @@
+{
+  "name": "bot-whatsapp",
+  "version": "1.0.0",
+  "main": "castiel.js",
+  "scripts": {
+    "start": "node castiel.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.6.0",
+    "node-cron": "^3.0.3",
+    "pino": "^8.0.0"
+  }
+}
