@@ -30,8 +30,9 @@ sock.ev.on("connection.update", async (update) => {
   }
 
   if (connection === "close") {
-    console.log("Conexão fechada, tentando reconectar...");
-  }
+  console.log("Conexão caiu... voltando à vida 😈");
+  setTimeout(() => startCastiel(), 3000);
+}
 });
     
     sock.ev.on("messages.upsert", async ({ messages }) => {
