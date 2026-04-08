@@ -6,32 +6,34 @@ async function startCastiel() {
     const { state, saveCreds } = await useMultiFileAuthState("auth_castiel")
 
     const sock = makeWASocket({
-        auth: state,
-        logger: P({ level: "silent" })
-    })
+  auth: state,
+  logger: P({ level: "silent" }),
+  printQRInTerminal: true
+})
 
-    sock.ev.on("creds.update", saveCreds)
-    const QRCode = require('qrcode');
+    sock.ev.on('creds.update', saveCreds)
 
-sock.ev.on('connection.update', async (update) => {
-    const { connection, qr } = update;
+const QRCode = require('qrcode');
 
-    if (qr) {
-        console.log('QR GERADO 👇');
+sock.ev.on("connection.update", async (update) => {
+  const { connection, qr } = update;
 
-        const qrCode = await QRCode.toString(qr, { type: 'terminal' });
-        console.log(qrCode);
-    }
+  if (qr) {
+    console.log("QR GERADO 👇");
 
-    if (connection === 'open') {
-        console.log('Castiel conectado 😇🔥');
-    }
+    const qrCode = await QRCode.toString(qr, { type: "terminal" });
+    console.log(qrCode);
+  }
 
-    if (connection === 'close') {
-        console.log('Conexão fechada, tentando reconectar...');
-    }
+  if (connection === "open") {
+    console.log("Castiel conectado 🙌");
+  }
+
+  if (connection === "close") {
+    console.log("Conexão fechada, tentando reconectar...");
+  }
 });
-
+    
     sock.ev.on("messages.upsert", async ({ messages }) => {
         const msg = messages[0]
         if (!msg.message || msg.key.fromMe) return
